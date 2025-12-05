@@ -41,6 +41,18 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# Environment variables (SENSITIVE - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+server/.env
+server/.env.local
+
+# API Keys & Secrets
+*.key
+*.pem
+secrets/
+
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
