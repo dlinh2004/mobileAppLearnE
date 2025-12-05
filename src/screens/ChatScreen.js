@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Platform, ActivityIndicator, StyleSheet, NativeModules } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // API Configuration - Update with your machine's IP address
 // To find your IP: 
@@ -15,6 +16,7 @@ const ChatScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState('');
   const listRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     // Check server connection on mount
@@ -25,6 +27,12 @@ const ChatScreen = () => {
     if (listRef.current) {
       listRef.current.scrollToEnd({ animated: true });
     }
+  };
+
+  // Handle text input from IME (composition input)
+  const handleTextInputChange = (text) => {
+    // Capture text directly from IME including Vietnamese diacritics
+    setInput(text);
   };
 
   const checkServerConnection = async () => {
@@ -106,7 +114,7 @@ const ChatScreen = () => {
   );
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <View style={styles.container}>
       {serverError ? (
         <View style={styles.errorBanner}>
           <Text style={styles.errorText}>⚠️ {serverError}</Text>
@@ -132,19 +140,24 @@ const ChatScreen = () => {
 
       <View style={styles.inputRow}>
         <TextInput
+          ref={inputRef}
           style={styles.input}
           value={input}
-          onChangeText={setInput}
+          onChangeText={handleTextInputChange}
           placeholder="Nhập câu hỏi tiếng Anh hoặc Việt..."
           multiline
           scrollEnabled={true}
           allowFontScaling={true}
+          textAlignVertical="top"
+          underlineColorAndroid="transparent"
+          placeholderTextColor="#999"
+          editable={!isLoading}
         />
-        <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
+        <TouchableOpacity style={styles.sendBtn} onPress={handleSend} disabled={isLoading}>
           <Text style={styles.sendText}>Gửi</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -156,7 +169,7 @@ const styles = StyleSheet.create({
   model: { alignSelf: 'flex-start', backgroundColor: '#F0F0F0' },
   messageText: { fontSize: 16 },
   inputRow: { flexDirection: 'row', alignItems: 'flex-end', padding: 8, borderTopWidth: 1, borderTopColor: '#eee' },
-  input: { flex: 1, minHeight: 40, maxHeight: 120, borderWidth: 1, borderColor: '#ddd', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8 },
+  input: { flex: 1, minHeight: 40, maxHeight: 120, borderWidth: 1, borderColor: '#ddd', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, fontSize: 16, fontFamily: 'System', color: '#000' },
   sendBtn: { marginLeft: 8, backgroundColor: '#007AFF', paddingVertical: 10, paddingHorizontal: 14, borderRadius: 8 },
   sendText: { color: '#fff', fontWeight: '600' },
   loadingRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingBottom: 6 },
