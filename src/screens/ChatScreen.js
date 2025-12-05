@@ -135,8 +135,10 @@ const ChatScreen = () => {
           style={styles.input}
           value={input}
           onChangeText={setInput}
-          placeholder="Nhập câu hỏi tiếng Anh..."
+          placeholder="Nhập câu hỏi tiếng Anh hoặc Việt..."
           multiline
+          scrollEnabled={true}
+          allowFontScaling={true}
         />
         <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
           <Text style={styles.sendText}>Gửi</Text>

@@ -72,7 +72,15 @@ app.post('/api/chat', async (req, res) => {
     const text = response.response.text() || '';
 
     console.log(`[Chat] Received response: "${text.substring(0, 50)}..."`);
-    return res.json({ text });
+    // Remove markdown formatting: **bold**, *italic*, __underline__
+    let cleanedText = text
+      .replace(/\*\*(.+?)\*\*/g, '$1')  // Remove **text**
+      .replace(/\*(.+?)\*/g, '$1')      // Remove *text*
+      .replace(/__(.+?)__/g, '$1')      // Remove __text__
+      .replace(/`(.+?)`/g, '$1');       // Remove `code`
+    
+    console.log(`[Chat] Cleaned response: "${cleanedText.substring(0, 50)}..."`);
+    return res.json({ text: cleanedText });
   } catch (err) {
     console.error('[Chat Error]', err.message || err);
     const errorMsg = err.message || 'Chat request failed';
