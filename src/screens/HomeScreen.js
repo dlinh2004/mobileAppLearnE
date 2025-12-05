@@ -77,6 +77,23 @@ export default function HomeScreen({ navigation }) {
           </View>
         </TouchableOpacity>
 
+        {/* Chat with AI Card */}
+        <TouchableOpacity 
+          style={[styles.card, styles.cardChat]}
+          onPress={() => navigation.navigate('Chat')}
+          activeOpacity={0.85}
+        >
+          <View style={styles.cardHeader}>
+            <Text style={styles.cardIcon}>🤖</Text>
+            <Text style={styles.cardLabel}>AI Chatbot</Text>
+          </View>
+          <Text style={styles.cardTitle}>Trò Chuyện với AI</Text>
+          <View style={styles.chatBubbles}>
+            <Text style={styles.bubble}>💬</Text>
+            <Text style={[styles.bubble, styles.bubbleOffset]}>✨</Text>
+          </View>
+        </TouchableOpacity>
+
         {/* Stats Card */}
         <TouchableOpacity 
           style={[styles.card, styles.cardStats]}
@@ -204,6 +221,9 @@ const styles = StyleSheet.create({
   cardStats: {
     backgroundColor: '#dbeafe',
   },
+  cardChat: {
+    backgroundColor: '#f3e8ff',
+  },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -273,6 +293,22 @@ const styles = StyleSheet.create({
     width: '65%',
     backgroundColor: '#3b82f6',
     borderRadius: 3,
+  },
+  chatBubbles: {
+    position: 'absolute',
+    right: 20,
+    bottom: 16,
+  },
+  bubble: {
+    fontSize: 28,
+    opacity: 0.3,
+    fontWeight: '700',
+  },
+  bubbleOffset: {
+    position: 'absolute',
+    right: -8,
+    bottom: -8,
+    opacity: 0.15,
   },
   bottomHint: {
     marginHorizontal: 16,
