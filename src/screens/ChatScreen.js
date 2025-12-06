@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Platform, ActivityIndicator, StyleSheet, NativeModules } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Platform, ActivityIndicator, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // API Configuration - Update with your machine's IP address
