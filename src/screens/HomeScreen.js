@@ -97,7 +97,7 @@ export default function HomeScreen({ navigation }) {
         {/* Stats Card */}
         <TouchableOpacity 
           style={[styles.card, styles.cardStats]}
-          onPress={() => Alert.alert(t.statsTitle, t.featureDev)}
+          onPress={() => navigation.navigate('Statistics')}
           activeOpacity={0.85}
         >
           <View style={styles.cardHeader}>

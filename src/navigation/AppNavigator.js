@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import FlashcardScreen from '../screens/FlashcardScreen';
 import QuizScreen from '../screens/QuizScreen';
 import ChatScreen from '../screens/ChatScreen';
+import StatisticsScreen from '../screens/StatisticsScreen';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Flashcard" component={FlashcardScreen} options={{ title: 'Học Flashcard' }} />
         <Stack.Screen name="Quiz" component={QuizScreen} options={{ title: 'Làm Quiz' }} />
         <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'Trò Chuyện với AI' }} />
+        <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ title: 'Thống Kê' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
