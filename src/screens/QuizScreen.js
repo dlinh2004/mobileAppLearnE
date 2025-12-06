@@ -18,18 +18,25 @@ export default function QuizScreen() {
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [shuffledWords, setShuffledWords] = useState([]);
 
-  const question = useMemo(() => WORDS[qIndex], [qIndex]);
+  useEffect(() => {
+    setShuffledWords(shuffle(WORDS));
+  }, []);
+
+  const question = useMemo(() => shuffledWords[qIndex], [qIndex, shuffledWords]);
 
   useEffect(() => {
     // Build 4 options: correct + 3 random others
-    const others = WORDS.filter((w) => w.id !== question.id);
+    if (!question || shuffledWords.length === 0) return;
+    
+    const others = shuffledWords.filter((w) => w.id !== question.id);
     const randomOthers = shuffle(others).slice(0, 3).map((w) => w.definition);
     const choices = shuffle([question.definition, ...randomOthers]);
     setOptions(choices);
     setSelected(null);
     setIsCorrect(null);
-  }, [qIndex, question]);
+  }, [qIndex, question, shuffledWords]);
 
   const onSelect = (opt) => {
     if (selected) return;
@@ -38,8 +45,18 @@ export default function QuizScreen() {
   };
 
   const next = () => {
-    setQIndex((i) => (i + 1) % WORDS.length);
+    if (shuffledWords.length > 0) {
+      setQIndex((i) => (i + 1) % shuffledWords.length);
+    }
   };
+
+  if (!question || options.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Đang tải...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -124,5 +141,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#6b7280',
+    fontWeight: '600',
   },
 });

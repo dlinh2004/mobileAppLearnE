@@ -1,19 +1,43 @@
-import React, { useMemo, useState, useContext } from 'react';
+import React, { useMemo, useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { WORDS } from '../data/words';
 import { LanguageContext } from '../context/LanguageContext';
+
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 export default function FlashcardScreen() {
   const { t } = useContext(LanguageContext);
   const [index, setIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
+  const [shuffledWords, setShuffledWords] = useState([]);
 
-  const card = useMemo(() => WORDS[index], [index]);
+  useEffect(() => {
+    setShuffledWords(shuffle(WORDS));
+  }, []);
+
+  const card = useMemo(() => shuffledWords[index], [index, shuffledWords]);
 
   const nextWord = () => {
-    setIndex((prev) => (prev + 1) % WORDS.length);
-    setShowBack(false);
+    if (shuffledWords.length > 0) {
+      setIndex((prev) => (prev + 1) % shuffledWords.length);
+      setShowBack(false);
+    }
   };
+
+  if (!card) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Đang tải...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -93,6 +117,11 @@ const styles = StyleSheet.create({
   nextButtonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: '600',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#6b7280',
     fontWeight: '600',
   },
 });

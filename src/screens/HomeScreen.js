@@ -85,9 +85,9 @@ export default function HomeScreen({ navigation }) {
         >
           <View style={styles.cardHeader}>
             <Text style={styles.cardIcon}>🤖</Text>
-            <Text style={styles.cardLabel}>AI Chatbot</Text>
+            <Text style={styles.cardLabel}>{t.aiChatbot}</Text>
           </View>
-          <Text style={styles.cardTitle}>Trò Chuyện với AI</Text>
+          <Text style={styles.cardTitle}>{t.chatWithAI}</Text>
           <View style={styles.chatBubbles}>
             <Text style={styles.bubble}>💬</Text>
             <Text style={[styles.bubble, styles.bubbleOffset]}>✨</Text>
