@@ -1,52 +1,260 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📱 Mobile App Learning - Ứng Dụng Học Từ Vựng Tiếng Anh
 
-# Getting Started
+Một ứng dụng di động được xây dựng bằng **React Native** giúp người dùng học từ vựng tiếng Anh thông qua các tính năng học flashcard, làm quiz, trò chuyện với AI, và theo dõi tiến độ.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## ✨ Tính Năng Chính
 
-## Step 1: Start Metro
+- 📚 **Học Flashcard**: Học từ vựng thông qua các thẻ ghi nhớ tương tác
+- 🎯 **Làm Quiz**: Kiểm tra kiến thức với các câu hỏi trắc nghiệm ngẫu nhiên
+- 🤖 **Trò Chuyện với AI**: Trao đổi với AI được hỗ trợ bởi Google Gemini
+- 📊 **Theo Dõi Tiến Độ**: Xem thống kê học tập, tiến độ theo cấp độ, và thành tựu
+- 🌐 **Đa Ngôn Ngữ**: Hỗ trợ tiếng Việt và tiếng Anh
+- 📱 **Giao Diện Thân Thiện**: Thiết kế UI/UX hiện đại, dễ sử dụng
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🛠️ Công Nghệ Sử Dụng
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **React Native**: Framework phát triển ứng dụng di động
+- **React Navigation**: Điều hướng giữa các màn hình
+- **Google Generative AI (Gemini API)**: Hỗ trợ tính năng chat AI
+- **Node.js/Express**: Server backend (tùy chọn)
+- **AsyncStorage**: Lưu trữ dữ liệu cục bộ
 
-```sh
-# Using npm
+## 📋 Yêu Cầu Hệ Thống
+
+- **Node.js** phiên bản 14 trở lên
+- **npm** hoặc **yarn**
+- **Android Studio** + **Android SDK** (để build Android)
+- **Xcode** (để build iOS trên macOS)
+- **Google Gemini API Key** (để sử dụng tính năng chat AI)
+
+## 🚀 Hướng Dẫn Cài Đặt
+
+### 1. Clone Repository
+
+```bash
+git clone <repository-url>
+cd MobileAppLearningE
+```
+
+### 2. Cài Đặt Dependencies
+
+```bash
+npm install
+# hoặc
+yarn install
+```
+
+### 3. Cấu Hình Gemini API Key
+
+Ứng dụng sử dụng **Google Generative AI (Gemini)** cho tính năng chat. Bạn cần:
+
+#### Bước 1: Tạo API Key
+1. Truy cập [Google AI Studio](https://aistudio.google.com/apikey)
+2. Đăng nhập bằng tài khoản Google
+3. Nhấp "Create API Key" để tạo key mới
+4. Copy API Key được tạo
+
+#### Bước 2: Thêm .env File
+
+Tạo file `.env` trong thư mục `server/`:
+
+```bash
+# Windows PowerShell
+echo "GEMINI_API_KEY=your_api_key_here" > server\.env
+echo "GEMINI_MODEL=gemini-2.5-flash" >> server\.env
+echo "PORT=3000" >> server\.env
+
+# macOS/Linux
+echo "GEMINI_API_KEY=your_api_key_here" > server/.env
+echo "GEMINI_MODEL=gemini-2.5-flash" >> server/.env
+echo "PORT=3000" >> server/.env
+```
+
+Hoặc tạo file thủ công với nội dung:
+```dotenv
+GEMINI_API_KEY=your_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
+PORT=3000
+```
+
+**⚠️ QUAN TRỌNG**: 
+- Đừng bao giờ commit file `.env` lên Git
+- File `.env` đã được thêm vào `.gitignore`
+- Mỗi người cần tạo API key của riêng họ
+
+### 4. Cấu Hình Android (Nếu Cần)
+
+Nếu build cho Android lần đầu tiên, chạy:
+
+```bash
+cd android
+./gradlew clean
+cd ..
+```
+
+### 5. Khởi Động Metro Dev Server
+
+```bash
 npm start
-
-# OR using Yarn
+# hoặc
 yarn start
 ```
 
-## Step 2: Build and run your app
+Cửa sổ terminal sẽ hiển thị menu. Nhấn `a` để chạy trên Android hoặc `i` cho iOS.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## 📱 Chạy Ứng Dụng
 
 ### Android
 
-```sh
-# Using npm
+```bash
 npm run android
-
-# OR using Yarn
+# hoặc
 yarn android
 ```
 
-### iOS
+### iOS (macOS only)
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Cài đặt dependencies CocoaPods (lần đầu tiên):
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+cd ios
+pod install
+cd ..
 ```
 
-Then, and every time you update your native dependencies, run:
+Sau đó chạy:
 
-```sh
-bundle exec pod install
+```bash
+npm run ios
+# hoặc
+yarn ios
 ```
+
+## 🖥️ Chạy Server (Nếu Cần)
+
+Để chạy backend server cho tính năng chat AI:
+
+```bash
+cd server
+npm install
+npm start
+```
+
+Server sẽ chạy trên `http://localhost:3000` (hoặc port được chỉ định trong `.env`)
+
+## 📁 Cấu Trúc Thư Mục
+
+```
+MobileAppLearningE/
+├── src/
+│   ├── screens/              # Các màn hình ứng dụng
+│   │   ├── HomeScreen.js
+│   │   ├── FlashcardScreen.js
+│   │   ├── QuizScreen.js
+│   │   ├── ChatScreen.js
+│   │   └── StatisticsScreen.js
+│   ├── data/                 # Dữ liệu tĩnh
+│   │   ├── words.js          # Danh sách từ vựng
+│   │   ├── translations.js   # Bản dịch (Việt/Anh)
+│   │   └── statistics.js     # Dữ liệu thống kê
+│   ├── navigation/           # Cấu hình điều hướng
+│   │   └── AppNavigator.js
+│   ├── context/              # React Context
+│   │   └── LanguageContext.js
+│   └── config/               # Cấu hình API
+│       └── api.js
+├── server/                   # Backend server
+│   ├── server.js
+│   ├── package.json
+│   └── .env                  # File cấu hình (tạo thủ công)
+├── android/                  # Native code Android
+├── ios/                      # Native code iOS
+├── package.json
+├── babel.config.js
+├── tsconfig.json
+├── metro.config.js
+└── README.md
+```
+
+## 🔑 Biến Môi Trường
+
+### server/.env
+
+| Biến | Mô Tả | Mặc Định |
+|------|-------|---------|
+| `GEMINI_API_KEY` | API Key từ Google Gemini | Bắt buộc |
+| `GEMINI_MODEL` | Model Gemini để sử dụng | `gemini-2.5-flash` |
+| `PORT` | Cổng server chạy | `3000` |
+
+## 🐛 Khắc Phục Sự Cố Phổ Biến
+
+### 1. Lỗi: "GEMINI_API_KEY not found"
+**Giải pháp**: Kiểm tra file `server/.env` có tồn tại và có `GEMINI_API_KEY` không
+
+### 2. Lỗi: "API key was reported as leaked"
+**Giải pháp**: Tạo API key mới từ [Google AI Studio](https://aistudio.google.com/apikey)
+
+### 3. Lỗi: "Metro bundler crashed"
+**Giải pháp**: 
+```bash
+npm start -- --reset-cache
+# hoặc
+yarn start --reset-cache
+```
+
+### 4. Lỗi: Android build fail
+**Giải pháp**:
+```bash
+cd android
+./gradlew clean
+cd ..
+npm run android
+```
+
+### 5. Lỗi: Port 3000 đang sử dụng
+**Giải pháp**: Đổi PORT trong file `server/.env` hoặc kill process đang dùng port
+
+## 📚 Thêm Từ Vựng Mới
+
+Để thêm từ vựng mới, chỉnh sửa file `src/data/words.js`:
+
+```javascript
+export const WORDS = [
+  {
+    id: '31',
+    term: 'innovative',
+    definition: 'đổi mới, sáng tạo',
+    example: 'The company has an innovative approach to problem solving.',
+    level: 'B2',
+  },
+  // ... thêm từ khác
+];
+```
+
+## 🌐 Đa Ngôn Ngữ
+
+Để thêm ngôn ngữ mới, chỉnh sửa `src/data/translations.js`:
+
+```javascript
+export const translations = {
+  vi: { /* Tiếng Việt */ },
+  en: { /* Tiếng Anh */ },
+  fr: { /* Tiếng Pháp - thêm mới */ },
+};
+```
+
+## 📞 Hỗ Trợ & Góp Ý
+
+Nếu có bất kỳ vấn đề hoặc góp ý, vui lòng tạo issue hoặc liên hệ với team phát triển.
+
+## 📄 Giấy Phép
+
+Dự án này được cấp phép dưới [MIT License](LICENSE)
+
+---
+
+**Phát triển bởi**: Learning Mobile App Team  
+**Ngày cập nhật**: December 6, 2025
 
 For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
