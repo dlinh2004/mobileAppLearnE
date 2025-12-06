@@ -72,7 +72,58 @@ npm install
 yarn install
 ```
 
-### 3. Cấu Hình Gemini API Key
+### 3. Cấu Hình API Host (IP Máy Tính)
+
+React Native không thể sử dụng `localhost` từ emulator hoặc thiết bị di động. Bạn cần cập nhật IP thực của máy tính chạy server.
+
+#### Bước 1: Tìm IP Máy Tính
+
+**Windows (PowerShell)**:
+```powershell
+ipconfig
+# Tìm "IPv4 Address" - thường là 192.168.x.x hoặc 10.x.x.x
+```
+
+**macOS/Linux (Terminal)**:
+```bash
+ifconfig
+# Tìm địa chỉ IP, thường bắt đầu bằng 192.168 hoặc 10
+```
+
+#### Bước 2: Cập Nhật API Host
+
+Cập nhật `API_HOST` ở **2 file**:
+
+**File 1: `src/config/api.js`**
+```javascript
+// Trước:
+const API_HOST = '192.168.111.1'; // TODO: Update with your machine IP
+
+// Sau (thay bằng IP của bạn):
+const API_HOST = '192.168.1.100'; // Thay bằng IP thực của máy tính
+```
+
+**File 2: `src/screens/ChatScreen.js`** (line 9)
+```javascript
+// Trước:
+const API_HOST = '192.168.111.1'; // CHANGE THIS TO YOUR MACHINE IP
+
+// Sau (thay bằng IP của bạn):
+const API_HOST = '192.168.1.100'; // Thay bằng IP thực của máy tính
+```
+
+#### Bước 3: Kiểm Tra Kết Nối
+
+Chắc chắn server đang chạy:
+```bash
+cd server
+npm start
+# Output sẽ hiển thị: "Proxy server listening on http://localhost:3000"
+```
+
+Bây giờ app sẽ kết nối đến `http://[YOUR_IP]:3000/api/chat`
+
+### 4. Cấu Hình Gemini API Key
 
 Ứng dụng sử dụng **Google Generative AI (Gemini)** cho tính năng chat. Bạn cần:
 
@@ -105,8 +156,12 @@ GEMINI_MODEL=gemini-2.5-flash
 PORT=3000
 ```
 
+**⚠️ QUAN TRỌNG**: 
+- Đừng bao giờ commit file `.env` lên Git
+- File `.env` đã được thêm vào `.gitignore`
+- Mỗi người cần tạo API key của riêng họ
 
-### 4. Cấu Hình Android (Nếu Cần)
+### 5. Cấu Hình Android (Nếu Cần)
 
 Nếu build cho Android lần đầu tiên, chạy:
 
@@ -116,7 +171,7 @@ cd android
 cd ..
 ```
 
-### 5. Khởi Động Metro Dev Server
+### 6. Khởi Động Metro Dev Server
 
 ```bash
 npm start
@@ -212,13 +267,32 @@ MobileAppLearningE/
 
 ## 🐛 Khắc Phục Sự Cố Phổ Biến
 
-### 1. Lỗi: "GEMINI_API_KEY not found"
+### 1. Lỗi: "Không thể kết nối đến server" hoặc "Network error"
+**Nguyên nhân**: API Host sai hoặc server không chạy
+
+**Giải pháp**:
+1. Kiểm tra server đang chạy: `cd server && npm start`
+2. Kiểm tra IP máy tính của bạn:
+   - Windows: `ipconfig` (tìm IPv4 Address)
+   - macOS/Linux: `ifconfig`
+3. Cập nhật **cả 2 file** này với IP đúng:
+   - `src/config/api.js` (line 7)
+   - `src/screens/ChatScreen.js` (line 9)
+4. Restart Metro: `npm start -- --reset-cache`
+5. Rebuild app: `npm run android` hoặc `npm run ios`
+
+**Ví dụ**: Nếu IP máy là `192.168.1.100`:
+```javascript
+const API_HOST = '192.168.1.100';
+```
+
+### 2. Lỗi: "GEMINI_API_KEY not found"
 **Giải pháp**: Kiểm tra file `server/.env` có tồn tại và có `GEMINI_API_KEY` không
 
-### 2. Lỗi: "API key was reported as leaked"
+### 3. Lỗi: "API key was reported as leaked"
 **Giải pháp**: Tạo API key mới từ [Google AI Studio](https://aistudio.google.com/apikey)
 
-### 3. Lỗi: "Metro bundler crashed"
+### 4. Lỗi: "Metro bundler crashed"
 **Giải pháp**: 
 ```bash
 npm start -- --reset-cache
@@ -226,7 +300,7 @@ npm start -- --reset-cache
 yarn start --reset-cache
 ```
 
-### 4. Lỗi: Android build fail
+### 5. Lỗi: Android build fail
 **Giải pháp**:
 ```bash
 cd android
@@ -235,7 +309,7 @@ cd ..
 npm run android
 ```
 
-### 5. Lỗi: Port 3000 đang sử dụng
+### 6. Lỗi: Port 3000 đang sử dụng
 **Giải pháp**: Đổi PORT trong file `server/.env` hoặc kill process đang dùng port
 
 ## 📚 Thêm Từ Vựng Mới
